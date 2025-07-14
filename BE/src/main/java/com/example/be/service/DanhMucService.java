@@ -1,7 +1,7 @@
 package com.example.be.service;
 
-import com.example.be.dto.repon.ThuocTinhRespone;
-import com.example.be.dto.request.admin.DanhMucRequest;
+import com.example.be.dto.repon.ThuocTinhRepone;
+import com.example.be.dto.request.admin.ThuocTinhRequest;
 import com.example.be.dto.request.admin.SearchTenAndTrangThaiRequest;
 import com.example.be.entity.DanhMuc;
 import com.example.be.repository.DanhMucRepository;
@@ -15,10 +15,10 @@ public class DanhMucService {
     @Autowired
     DanhMucRepository danhMucRepository;
 
-    public List<ThuocTinhRespone> getALL() {
+    public List<ThuocTinhRepone> getALL() {
         return danhMucRepository.getALLDM();
     }
-    public DanhMuc addDM(DanhMucRequest danhMucRequest) {
+    public DanhMuc addDM(ThuocTinhRequest danhMucRequest) {
         int count = (int) danhMucRepository.count(); // đếm số lượng
         String ma = String.format("DM%03d", count + 1);
         DanhMuc danhMuc = DanhMuc.builder()
@@ -29,7 +29,7 @@ public class DanhMucService {
                 .build();
         return danhMucRepository.save(danhMuc);
     }
-    public DanhMuc update(String id, DanhMucRequest danhMucRequest) {
+    public DanhMuc update(String id, ThuocTinhRequest danhMucRequest) {
         DanhMuc dm = danhMucRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục"));
         dm.setTen(danhMucRequest.getTen());
@@ -41,7 +41,7 @@ public class DanhMucService {
 
     public DanhMuc detailDM(String id){return danhMucRepository.findById(id).get();}
 
-    public List<ThuocTinhRespone> getTim(SearchTenAndTrangThaiRequest bangConSearch) {
+    public List<ThuocTinhRepone> getTim(SearchTenAndTrangThaiRequest bangConSearch) {
         return danhMucRepository.tim(bangConSearch);
     }
 

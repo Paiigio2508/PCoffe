@@ -1,6 +1,6 @@
 package com.example.be.dto.repon;
 
-public interface DiaChiKhachHangRespon {
+public interface DiaChiKhachHangRepon {
     public String getId();
     public String getNguoiDung();
     public String getIdThanhPho();

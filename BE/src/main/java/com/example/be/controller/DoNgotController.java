@@ -2,7 +2,7 @@ package com.example.be.controller;
 
 import com.example.be.dto.request.admin.ThuocTinhRequest;
 import com.example.be.dto.request.admin.SearchTenAndTrangThaiRequest;
-import com.example.be.service.DanhMucService;
+import com.example.be.service.DoNgotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,35 +10,35 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:3000/")
 @RestController
-@RequestMapping("/admin/danh-muc")
+@RequestMapping("/admin/do-ngot")
 @RequiredArgsConstructor
-public class DanhMucController {
+public class DoNgotController {
     @Autowired
-    private DanhMucService danhMucService;
+    private DoNgotService doNgotService;
 
     @GetMapping
-    public ResponseEntity<?> getALLDM() {
-        return ResponseEntity.ok(danhMucService.getALL());
+    public ResponseEntity<?> getALLDN() {
+        return ResponseEntity.ok(doNgotService.getALL());
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody ThuocTinhRequest v) {
-        return ResponseEntity.ok(danhMucService.addDM(v));
+        return ResponseEntity.ok(doNgotService.addDM(v));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody ThuocTinhRequest request) {
 
-        return ResponseEntity.ok(danhMucService.update(id, request));
+        return ResponseEntity.ok(doNgotService.update(id, request));
     }
 
-    @GetMapping("/detail/{idDM}")
-    public ResponseEntity<?> detail(@PathVariable("idDM") String id) {
-        return ResponseEntity.ok(danhMucService.detailDM(id));
+    @GetMapping("/detail/{idDN}")
+    public ResponseEntity<?> detail(@PathVariable("idDN") String id) {
+        return ResponseEntity.ok(doNgotService.detailDN(id));
     }
 
     @PostMapping("/tim-kiem")
     public ResponseEntity<?> search(@RequestBody SearchTenAndTrangThaiRequest bangConSearch) {
-        return ResponseEntity.ok(danhMucService.getTim(bangConSearch));
+        return ResponseEntity.ok(doNgotService.getTim(bangConSearch));
     }
 }

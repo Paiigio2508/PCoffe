@@ -2,21 +2,21 @@ package com.example.be.repository;
 
 import com.example.be.dto.repon.ThuocTinhRepone;
 import com.example.be.dto.request.admin.SearchTenAndTrangThaiRequest;
-import com.example.be.entity.DanhMuc;
+import com.example.be.entity.MucDa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface DanhMucRepository extends JpaRepository<DanhMuc, String> {
+public interface MucDaRepository extends JpaRepository<MucDa,String>{
     @Query(value = """
-            SELECT dm.id as id,dm.ma as ma ,dm.ten as ten, dm.trang_thai as trangThai FROM danh_muc dm ORDER BY dm.ngay_tao DESC 
+                SELECT md.id as id,md.ma as ma ,md.ten as ten, md.trang_thai as trangThai FROM muc_da md ORDER BY md.ngay_tao DESC\s
                     """, nativeQuery = true)
-    List<ThuocTinhRepone> getALLDM();
+    List<ThuocTinhRepone> getALLMD();
 
     @Query(value = """
-            SELECT o.id as id,o.ma as ma ,o.ten as ten, o.trang_thai as trangThai FROM danh_muc o WHERE 
+            SELECT o.id as id,o.ma as ma ,o.ten as ten, o.trang_thai as trangThai FROM muc_da o WHERE 
              (:#{#bangConSearch.tenTimKiem} IS NULL OR o.ma LIKE (%:#{#bangConSearch.tenTimKiem}%) OR o.ten LIKE (%:#{#bangConSearch.tenTimKiem}%) ) AND
              ( :#{#bangConSearch.trangThai} IS NULL OR o.trang_thai=:#{#bangConSearch.trangThai})
             ORDER BY o.ma DESC

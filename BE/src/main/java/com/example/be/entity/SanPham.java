@@ -3,16 +3,17 @@ package com.example.be.entity;
 import com.example.be.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "san_pham")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // <-- bắt buộc với JPA
+@SuperBuilder
 public class SanPham extends BaseEntity {
     private String ma;
     private String ten;

@@ -1,7 +1,7 @@
 package com.example.be.service;
 
 import com.example.be.dto.impldto.NguoiDungResponseImplDTO;
-import com.example.be.dto.repon.DiaChiKhachHangRespon;
+import com.example.be.dto.repon.DiaChiKhachHangRepon;
 import com.example.be.dto.request.admin.DiaChiRequest;
 import com.example.be.dto.request.admin.NguoiDungRequest;
 import com.example.be.dto.request.admin.SearchTenAndTrangThaiRequest;
@@ -112,7 +112,7 @@ public class KhachHangService {
 
     }
     // tìm kiếm list địa chỉ khách hàng
-    public List<DiaChiKhachHangRespon> findDiaChiByKH(String idKH){
+    public List<DiaChiKhachHangRepon> findDiaChiByKH(String idKH){
         return diaChiRepository.findDiaChiByKH(idKH);
     }
         // thêm địa chỉ khách hàng

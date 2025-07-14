@@ -2,7 +2,7 @@ package com.example.be.dto.repon;
 
 import java.time.LocalDateTime;
 
-public interface ThuocTinhRespone {
+public interface ThuocTinhRepone {
      String getId();
 
      String getMa();

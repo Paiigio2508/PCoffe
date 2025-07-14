@@ -7,9 +7,12 @@ import com.example.be.model.NguoiDungDiaChiRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
     @Query(value = """
         SELECT
@@ -105,5 +108,8 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, String> {
             @Param("id") String id,
             @Param("chucVu") String chucVu
     );
-
+    @Query(value = """
+           select  * from nguoi_dung where  email=:email
+                    """,nativeQuery = true)
+    Optional<NguoiDung> findByEmail(@Param("email") String email);
 }

@@ -6,15 +6,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "hinh_anh")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // <-- bắt buộc với JPA
+@SuperBuilder
 public class HinhAnh extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "san_pham_id")

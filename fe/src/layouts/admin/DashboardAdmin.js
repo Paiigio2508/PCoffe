@@ -146,6 +146,19 @@ const DashboardAdmin = ({ children }) => {
                 >
                   Sản phẩm
                 </MenuItem>
+
+                <MenuItem
+                  active={location.pathname === "/admin-topping"}
+                  onClick={() => nav("/admin-topping")}
+                >
+                  Topping
+                </MenuItem>
+                <MenuItem
+                  active={location.pathname === "/admin-size"}
+                  onClick={() => nav("/admin-size")}
+                >
+                  Size
+                </MenuItem>
                 <MenuItem
                   active={location.pathname === "/admin-danh-muc"}
                   onClick={() => nav("/admin-danh-muc")}
@@ -153,20 +166,14 @@ const DashboardAdmin = ({ children }) => {
                   Danh mục
                 </MenuItem>
                 <MenuItem
-                  active={location.pathname === "/admin-topping"}
-                  onClick={() => nav("/admin-de-giay")}
-                >
-                  Topping
-                </MenuItem>
-                <MenuItem
                   active={location.pathname === "/admin-do-ngot"}
-                  onClick={() => nav("/admin-chat-lieu")}
+                  onClick={() => nav("/admin-do-ngot")}
                 >
                   Độ ngọt
                 </MenuItem>
                 <MenuItem
                   active={location.pathname === "/admin-muc-da"}
-                  onClick={() => nav("/admin-kich-thuoc")}
+                  onClick={() => nav("/admin-muc-da")}
                 >
                   Mức đá
                 </MenuItem>

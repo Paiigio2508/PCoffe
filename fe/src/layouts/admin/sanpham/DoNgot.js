@@ -11,21 +11,18 @@ import {
   Tag,
   Modal,
 } from "antd";
-import { PlusCircleOutlined, RetweetOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { BookFilled } from "@ant-design/icons";
 import { FilterFilled } from "@ant-design/icons";
 import { BiSolidCategory } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BsFillEyeFill } from "react-icons/bs";
-import { DanhMucAPI } from "../../../../pages/api/danhmuc/DanhMucAPI";
+import { DoNgotAPI } from "../../../pages/api/sanpham/DoNgotAPI";
 
-export default function DanhMuc() {
+export default function DoNgot() {
   //Form
-  const [selectedValue, setSelectedValue] = useState("1");
-  const handleChange = (value) => {
-    setSelectedValue(value);
-  };
+  const [ setSelectedValue] = useState("1");
   const [formTim] = Form.useForm();
   const [componentSize, setComponentSize] = useState("default");
   const onFormLayoutChange = ({ size }) => {
@@ -41,15 +38,14 @@ export default function DanhMuc() {
   };
   //Ấn add
   const [open, setOpen] = useState(false);
-  const [bordered] = useState(false);
-  const addDanhMuc = (value) => {
+  const addDoNgot = (value) => {
     const checkTrung = (code) => {
-      return danhMuc.some(
-        (dm) => dm.ten.trim().toLowerCase() === code.trim().toLowerCase()
+      return doNgot.some(
+        (dn) => dn.ten.trim().toLowerCase() === code.trim().toLowerCase()
       );
     };
     if (!checkTrung(value.ten)) {
-      DanhMucAPI.create(value).then((res) => {
+      DoNgotAPI.create(value).then((res) => {
         toast("✔️ Thêm thành công!", {
           position: "top-right",
           autoClose: 5000,
@@ -60,12 +56,12 @@ export default function DanhMuc() {
           progress: undefined,
           theme: "light",
         });
-        loadDanhMuc();
+        loadDoNgot();
         setOpen(false);
-        form1.resetFields();
+        form.resetFields();
       });
     } else {
-      toast.error("Danh mục đã tồn tại!", {
+      toast.error("Độ ngọt đã tồn tại!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -79,11 +75,11 @@ export default function DanhMuc() {
   };
   //Update
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [dmUpdate, setDmUpdate] = useState("");
+  const [dnUpdate, setDnUpdate] = useState("");
   const [tenCheck, setTenCheck] = useState("");
 
   const showModal = async (idDetail) => {
-    await DanhMucAPI.detailDM(idDetail).then((res) => {
+    await DoNgotAPI.detailDN(idDetail).then((res) => {
       form1.setFieldsValue({
         id: res.data.id,
         ma: res.data.ma,
@@ -95,20 +91,20 @@ export default function DanhMuc() {
         nguoiSua: res.data.nguoiSua,
       });
       setTenCheck(res.data.ten);
-      setDmUpdate(res.data);
+      setDnUpdate(res.data);
     });
     setOpenUpdate(true);
   };
-  const updateDanhMuc = () => {
-    if (dmUpdate.ten != tenCheck) {
+  const updateDoNgot = () => {
+    if (dnUpdate.ten != tenCheck) {
       const checkTrung = (ten) => {
-        return danhMuc.some(
-          (dm) => dm.ten.trim().toLowerCase() === ten.trim().toLowerCase()
+        return doNgot.some(
+          (dn) => dn.ten.trim().toLowerCase() === ten.trim().toLowerCase()
         );
       };
 
-      if (checkTrung(dmUpdate.ten)) {
-        toast.error("Danh mục trùng với danh mục khác !", {
+      if (checkTrung(dnUpdate.ten)) {
+        toast.error("Độ ngọt trùng với độ ngọt khác !", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -121,7 +117,7 @@ export default function DanhMuc() {
         return;
       }
     }
-    DanhMucAPI.updateDM(dmUpdate.id, dmUpdate).then((res) => {
+    DoNgotAPI.updateDN(dnUpdate.id, dnUpdate).then((res) => {
       toast("✔️ Sửa thành công!", {
         position: "top-right",
         autoClose: 5000,
@@ -132,21 +128,21 @@ export default function DanhMuc() {
         progress: undefined,
         theme: "light",
       });
-      setDmUpdate("");
-      loadDanhMuc();
+      setDnUpdate("");
+      loadDoNgot();
       setOpenUpdate(false);
     });
   };
   //Tìm kiếm
-  const onChangeFilter = (changedValues, allValues) => {
-    if (allValues.hasOwnProperty("tenTimKiem")) {
-      allValues.tenTimKiem = allValues.tenTimKiem.trim();
-    }
-    timKiemCT(allValues);
-  };
+    const onChangeFilter = (changedValues, allValues) => {
+      if (typeof allValues.tenTimKiem === "string") {
+        allValues.tenTimKiem = allValues.tenTimKiem.trim();
+      }
+      timKiemCT(allValues);
+    };
   const timKiemCT = (dataSearch) => {
-    DanhMucAPI.search(dataSearch).then((res) => {
-      setDanhMucs(res.data);
+    DoNgotAPI.search(dataSearch).then((res) => {
+      setDoNgot(res.data);
     });
   };
   //Validate
@@ -161,7 +157,7 @@ export default function DanhMuc() {
       return Promise.reject("Tên không được để trống");
     }
 
-    const specialCharacterRegex = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/;
+    const specialCharacterRegex = /[!@#$^&*()_+\=\[\]{};':"\\|,.<>\/?]/;
     if (specialCharacterRegex.test(tenTim)) {
       return Promise.reject("Tên không được chứa ký tự đặc biệt");
     }
@@ -183,7 +179,7 @@ export default function DanhMuc() {
       return Promise.reject("Tên không được để trống");
     }
 
-    const specialCharacterRegex = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/;
+    const specialCharacterRegex = /[!@#$^&*()_+\=\[\]{};':"\\|,.<>\/?]/;
     if (specialCharacterRegex.test(tenTim)) {
       return Promise.reject("Tên không được chứa ký tự đặc biệt");
     }
@@ -203,15 +199,15 @@ export default function DanhMuc() {
     return Promise.resolve();
   };
   //Table
-  const [danhMuc, setDanhMucs] = useState([]);
+  const [doNgot, setDoNgot] = useState([]);
 
   useEffect(() => {
-    loadDanhMuc();
+    loadDoNgot();
   }, []);
 
-  const loadDanhMuc = () => {
-    DanhMucAPI.getAll().then((res) => {
-      setDanhMucs(res.data);
+  const loadDoNgot= () => {
+    DoNgotAPI.getAll().then((res) => {
+      setDoNgot(res.data);
     });
   };
 
@@ -271,8 +267,7 @@ export default function DanhMuc() {
       <div className="container-fluid">
         <Divider orientation="center" color="#d0aa73">
           <h4 className="text-first pt-1 fw-bold">
-            {" "}
-            <BiSolidCategory size={35} /> Quản lý danh mục
+            <BiSolidCategory size={35} /> Quản lý độ ngọt
           </h4>
         </Divider>
         <div
@@ -310,7 +305,7 @@ export default function DanhMuc() {
               <Form.Item label="Tìm kiếm" name="tenTimKiem">
                 <Input
                   maxLength={30}
-                  placeholder="Nhập mã hoặc tên hoặc sđt ..."
+                  placeholder="Nhập mã hoặc tên..."
                 />
               </Form.Item>
             </div>
@@ -324,7 +319,7 @@ export default function DanhMuc() {
             </div>
           </Form>
           <Form.Item className="text-center ">
-            <Button className="btn3" htmlType="reset" onClick={loadDanhMuc}>
+            <Button className="btn3" htmlType="reset" onClick={loadDoNgot}>
               Làm mới
             </Button>
           </Form.Item>
@@ -332,7 +327,7 @@ export default function DanhMuc() {
         <div className="text-end mt-2 mb-2">
           <button onClick={() => setOpen(true)} class="button-them mt-2 mb-3">
             <span class="text">
-              <PlusCircleOutlined /> Thêm danh mục
+              <PlusCircleOutlined /> Thêm độ ngọt
             </span>
           </button>
         </div>
@@ -344,22 +339,22 @@ export default function DanhMuc() {
             borderRadius: "8px",
           }}
         >
-          <h5>
-            <BookFilled size={30} /> Danh sách danh mục
+          <h5 className="text-start mt-2">
+            <BookFilled size={30} /> Danh sách độ ngọt
           </h5>
           <hr />
           <div className="ms-3">
             {/* Add danh mục */}
 
             <Modal
-              title="Thêm Danh Mục"
+              title="Thêm độ ngọt"
               open={open}
               centered
               onOk={() => form.submit()}
               onCancel={() => setOpen(false)}
               width={500}
             >
-              <Form form={form} onFinish={addDanhMuc} layout="vertical">
+              <Form form={form} onFinish={addDoNgot} layout="vertical">
                 <Form.Item
                   label="Tên"
                   name="ten"
@@ -407,7 +402,7 @@ export default function DanhMuc() {
                 style={{
                   maxWidth: 1000,
                 }}
-                onFinish={updateDanhMuc}
+                onFinish={updateDoNgot}
                 form={form1}
               >
                 <Form.Item
@@ -415,22 +410,23 @@ export default function DanhMuc() {
                   label={<b>Tên</b>}
                   hasFeedback
                   rules={[{ required: true, validator: validateDateUpdate }]}
+                  className="mt-4"
                 >
                   <Input
                     className="border"
                     maxLength={31}
-                    value={dmUpdate.ten}
+                    value={dnUpdate.ten}
                     onChange={(e) =>
-                      setDmUpdate({ ...dmUpdate, ten: e.target.value })
+                      setDnUpdate({ ...dnUpdate, ten: e.target.value })
                     }
                   />
                 </Form.Item>
                 <Form.Item label={<b>Trạng thái</b>}>
                   <Radio.Group
                     onChange={(e) =>
-                      setDmUpdate({ ...dmUpdate, trangThai: e.target.value })
+                      setDnUpdate({ ...dnUpdate, trangThai: e.target.value })
                     }
-                    value={dmUpdate.trangThai}
+                    value={dnUpdate.trangThai}
                   >
                     <Radio value={0}>Còn Hoạt Động</Radio>
                     <Radio value={1}>Ngừng Hoạt Động</Radio>
@@ -442,14 +438,14 @@ export default function DanhMuc() {
           <div className="container-fluid mt-4">
             <Table
               align="center"
-              dataSource={danhMuc}
+              dataSource={doNgot}
               columns={columns}
               pagination={{
                 showQuickJumper: true,
                 defaultPageSize: 5,
                 position: ["bottomCenter"],
                 defaultCurrent: 1,
-                total: danhMuc.length,
+                total: doNgot.length,
               }}
             />
           </div>

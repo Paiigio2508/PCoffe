@@ -22,7 +22,14 @@ import KhachHang from "../layouts/admin/nguoidung/khachhang/KhachHang";
 import AddKhachHang from "../layouts/admin/nguoidung/khachhang/AddKhachHang";
 import UpdateKhachHang from "../layouts/admin/nguoidung/khachhang/UpdateKhachHang";
 import DetailKhachHang from '../layouts/admin/nguoidung/khachhang/DetailKhachHang';
-import DanhMuc from '../layouts/admin/sanpham/danhmuc/DanhMuc';
+import DanhMuc from '../layouts/admin/sanpham/DanhMuc';
+import DoNgot from '../layouts/admin/sanpham/DoNgot';
+import MucDa from '../layouts/admin/sanpham/MucDa';
+import Size from '../layouts/admin/sanpham/Size';
+import Topping from '../layouts/admin/sanpham/Topping';
+import SanPham from '../layouts/admin/sanpham/SanPham';
+import BanHang from '../layouts/admin/banhang/BanHang';
+import { Login } from '../layouts/login/Login';
 function App() {
   return (
     <div className="App">
@@ -31,6 +38,16 @@ function App() {
           <Routes>
             <Route path="*" element={<NotFoud />} />
             <Route path="/not-access" element={<NotAccess />} />
+            {/* login */}
+
+            <Route
+              path="/login"
+              element={
+                <GuestGuard>
+                  <Login />
+                </GuestGuard>
+              }
+            />
             {/* client */}
             <Route
               path="/home"
@@ -159,6 +176,66 @@ function App() {
                 // <AuthGuard>
                 <DashboardAdmin>
                   <DanhMuc />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-do-ngot"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <DoNgot />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-muc-da"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <MucDa />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-size"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <Size />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-topping"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <Topping />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-san-pham"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <SanPham />
+                </DashboardAdmin>
+                // </AuthGuard>
+              }
+            />
+            <Route
+              path="/admin-ban-hang"
+              element={
+                // <AuthGuard>
+                <DashboardAdmin>
+                  <BanHang />
                 </DashboardAdmin>
                 // </AuthGuard>
               }
